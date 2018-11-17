@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<!--
+*****************************************************************************
+*    (c) 2005-2018 Copyright, Real-Time Innovations, All rights reserved.   *
+*                                                                           *
+*         Permission to modify and use for internal purposes granted.       *
+* This software is provided "as is", without warranty, express or implied.  *
+*                                                                           *
+*****************************************************************************
+-->
+<!-- 
+Description
+- Defines common qos profiles that may be used by multiple services
+- Defines a topic specific service QosProfile, common across all the interfaces
+- Defines per interface specific QosPofiles that extends the common topic
+  specific service profile, and makes any interface specific adjustments
+- A new per interface specific qos profile should be added when a new interface
+  is defined in the *_if.xml file
+  
+Note that here we are passing in an environment variable 
+            $(USER)
+to set the participant_name, so that it is automatically set to the logged in 
+user id that is running the application. Make sure this environment variable is
+defined, else you will get parsing errors. 
+
+The participant name, if it is set, will be displayed in the RTI tools, making 
+it easier for you to tell one application from another when you're debugging. 
+  
+Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
+-->
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.3.1/rti_dds_qos_profiles.xsd"
+    version="5.3.1">
+
+	<!-- Common endpoint qos profiles 
+	     See $(NDDSHOME)/resource/xml/NDDS_QOS_PROFILES.example.xml 
+	 -->
+	<qos_library name="MyEndpointQosLib">
+	
+        <qos_profile name="User.Generic.StrictReliable"
+			         base_name="BuiltinQosLibExp::Generic.StrictReliable">
+			
+            <datawriter_qos>
+            
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to 
+                     serialize the samples -->                
+                <property>
+                    <value>
+                        <element>
+                           <name>
+                           dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size
+                           </name>
+                           <value>4096</value>
+                        </element>
+                    </value>
+                </property>
+            </datawriter_qos>
+
+           <datareader_qos>
+  
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to keep 
+                     the serialized keys for the instances -->        
+                <property>
+                    <value>
+                        <element>
+                            <name>
+                            dds.data_reader.history.memory_manager.fast_pool.pool_buffer_max_size
+                            </name>
+                            <value>4096</value>
+                        </element>
+                    </value>
+               </property>
+            </datareader_qos>
+        </qos_profile>
+		
+        <qos_profile name="User.Generic.KeepLastReliable"
+            base_name="BuiltinQosLibExp::Generic.KeepLastReliable">
+            
+            <datawriter_qos>
+            
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>3</depth>
+                </history>
+                                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to 
+                     serialize the samples -->              
+                <property>
+                    <value>
+                        <element>
+                           <name>
+                           dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size
+                           </name>
+                           <value>4096</value>
+                        </element>
+                    </value>
+                </property>
+            </datawriter_qos>
+
+           <datareader_qos>
+  
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>1</depth>
+                </history>                
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to keep 
+                     the serialized keys for the instances -->        
+                <property>
+                    <value>
+                        <element>
+                            <name>
+                            dds.data_reader.history.memory_manager.fast_pool.pool_buffer_max_size
+                            </name>
+                            <value>4096</value>
+                        </element>
+                    </value>
+               </property>
+            </datareader_qos>
+        </qos_profile>		
+	</qos_library>
+
+
+	<qos_library name="MyParticipantQosLib">
+	
+		<qos_profile name="User.Generic.Common"
+			         base_name="BuiltinQosLib::Generic.Common">
+			<participant_qos>
+				<participant_name>
+				    <!-- get the name from environment variable $(USER) -->
+			        <name>$(USER)</name>
+				</participant_name>
+                <resource_limits>
+                    <type_code_max_serialized_length>
+                        0
+                    </type_code_max_serialized_length>
+                    <type_object_max_serialized_length>
+                        65535
+                    </type_object_max_serialized_length>
+                </resource_limits>				
+			</participant_qos>
+		</qos_profile>
+	</qos_library>
+
+
+
+
+	<!-- Service QosProfiles -->
+	<qos_library name="MyServiceQosLib">
+
+		<!-- Topic specific QosProfile, common across all the interfaces -->
+		<qos_profile name="MyService"
+			base_name="MyEndpointQosLib::User.Generic.StrictReliable">
+
+			<datareader_qos topic_filter="Square"
+				base_name="MyEndpointQosLib::User.Generic.StrictReliable" />
+			<datawriter_qos topic_filter="Square"
+				base_name="MyEndpointQosLib::User.Generic.StrictReliable" />
+
+			<datareader_qos topic_filter="Circle"
+				base_name="MyEndpointQosLib::User.Generic.StrictReliable" />
+			<datawriter_qos topic_filter="Circle"
+				base_name="MyEndpointQosLib::User.Generic.StrictReliable" />
+
+			<datareader_qos topic_filter="Triangle"
+				base_name="MyEndpointQosLib::User.Generic.KeepLastReliable" />
+			<datawriter_qos topic_filter="Triangle"
+				base_name="MyEndpointQosLib::User.Generic.KeepLastReliable" />
+		</qos_profile>
+
+		<qos_profile name="MyService.Pub" base_name="MyService">
+			<participant_qos
+				base_name="MyParticipantQosLib::User.Generic.Common" />
+		</qos_profile>
+
+		<qos_profile name="MyService.Sub" base_name="MyService">
+			<participant_qos
+				base_name="MyParticipantQosLib::User.Generic.Common" />
+		</qos_profile>
+
+		<qos_profile name="MyService.PubSub" base_name="MyService">
+			<participant_qos
+				base_name="MyParticipantQosLib::User.Generic.Common" />
+		</qos_profile>
+	</qos_library>
+</dds>

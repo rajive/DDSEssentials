@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!--
+*****************************************************************************
+*    (c) 2005-2018 Copyright, Real-Time Innovations, All rights reserved.   *
+*                                                                           *
+*         Permission to modify and use for internal purposes granted.       *
+* This software is provided "as is", without warranty, express or implied.  *
+*                                                                           *
+*****************************************************************************
+-->
+<!-- 
+Description
+- Defines the data domain(s) a.k.a. data-spaces
+- Defines the service data-oriented interfaces
+
+Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
+-->
+<dds
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.3.1/rti_dds_profiles.xsd"
+    version="5.3.1">
+     
+     
+    <!-- types -->
+    <types>
+		<include file="res/types/ShapeType.xml"/>
+    </types>
+
+    <!-- Domain Library -->
+    <domain_library name="MyDomainLib" >
+
+        <!-- Define a data-space -->
+        <domain name="MyDomain">
+        
+            <!-- register type names (defined by <types>) in the data-space -->
+			<register_type name="ShapeType" type_ref="rti::example::ShapeType"/>
+			
+            <!-- use registered type names to define topics -->			
+            <topic name="Square"    register_type_ref="ShapeType"/>
+            <topic name="Circle"    register_type_ref="ShapeType"/>      
+            <topic name="Triangle"  register_type_ref="ShapeType"/> 
+                  
+        </domain>
+    </domain_library>
+
+
+
+    <!-- Participant library -->
+    <domain_participant_library name="MyServiceIfLib">
+
+
+         <!-- Define a data-oriented interface: Pub -->
+        <domain_participant name="MyService.Pub" 
+                            domain_ref="MyDomainLib::MyDomain">
+                            
+            <!-- outputs -->           
+            <publisher name="MyPublisher">
+            
+                <data_writer name="MyWriter" topic_ref="Circle">
+                    <datawriter_qos base_name="MyServiceQosLib::MyService.Pub"/>
+                </data_writer>
+                
+                <publisher_qos base_name="MyServiceQosLib::MyService.Pub"/> 
+            </publisher>  
+            
+            <participant_qos base_name="MyServiceQosLib::MyService.Pub"/>      
+        </domain_participant>
+        
+        
+        
+        <!-- Define a data-oriented interface: Sub -->
+        <domain_participant name="MyService.Sub"
+                            domain_ref="MyDomainLib::MyDomain">
+                            
+            <subscriber name="MySubscriber">
+            
+                 <!-- inputs -->            
+                <data_reader name="MyReader" topic_ref="Circle">
+                    <datareader_qos base_name="MyServiceQosLib::MyService.Sub"/>
+                </data_reader>
+                
+                <subscriber_qos base_name="MyServiceQosLib::MyService.Sub"/> 
+            </subscriber>
+            
+            <participant_qos base_name="MyServiceQosLib::MyService.Sub"/>             
+        </domain_participant>
+        
+        
+        
+        <!-- Define a data-oriented interface: PubSub -->
+        <domain_participant name="MyService.PubSub"
+                            domain_ref="MyDomainLib::MyDomain">
+                          
+            <!-- inputs -->   
+            <subscriber name="MySubscriber">
+            
+                <data_reader name="MyReader" topic_ref="Square">
+                    <datareader_qos base_name="MyServiceQosLib::MyService.PubSub"/>
+                </data_reader>
+                
+                <subscriber_qos base_name="MyServiceQosLib::MyService.PubSub"/> 
+            </subscriber>
+            
+            <!-- outputs -->             
+            <publisher name="MyPublisher">
+            
+                <data_writer name="MyWriter" topic_ref="Circle">
+                    <datawriter_qos base_name="MyServiceQosLib::MyService.PubSub"/>
+                </data_writer>
+                
+                <publisher_qos base_name="MyServiceQosLib::MyService.PubSub"/> 
+            </publisher>   
+                       
+            <participant_qos base_name="MyServiceQosLib::MyService.PubSub"/>            
+        </domain_participant>
+       
+    </domain_participant_library>
+    
+</dds>
