@@ -75,20 +75,22 @@ void publisher_main(int domain_id, int sample_count)
 
     rti::example::PictureShapeType sample;
 	sample.color("RED");
-
-	// Large Data: un-comment the line below to force a large sample
-	//     The picture size can exceed the UDP limit of 64KB, and illustrates
-	//     that the "large data" transfer scenario can be transparently
-	//     handled by DDS. The _qos.xml file configures the DataWriter's qos
-	//     policies to use asynchronous publishing in a background thread.
-	//
-	// sample.picture().pixel().resize(80000); // large data > 64KB UDP limit
-
     for (int count = 0; count < sample_count || sample_count == 0; count++) {
         // Modify the data to be written here
     	sample.x(20 + (count*10) % 230);
     	sample.y(100 + (count*10) % 230);
     	sample.shapesize(40);
+
+
+    	// Large Data: un-comment the lines below to force a large sample
+    	//    The picture size can exceed the UDP limit of 64KB, and illustrates
+    	//    that the "large data" transfer scenario can be transparently
+    	//    handled by DDS. The _qos.xml file configures the DataWriter's qos
+    	//    policies to use asynchronous publishing in a background thread.
+    	//
+    	sample.picture().dim(rti::example::PICTURE_WIDTH);
+		sample.picture().pixel().resize(rti::example::PICTURE_WIDTH *
+										rti::example::PICTURE_HEIGHT);
 
         std::cout << "Writing ShapeType, count " << count << std::endl;
         writer.write(sample);
