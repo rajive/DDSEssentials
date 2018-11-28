@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!--
+*****************************************************************************
+*    (c) 2005-2018 Copyright, Real-Time Innovations, All rights reserved.   *
+*                                                                           *
+*         Permission to modify and use for internal purposes granted.       *
+* This software is provided "as is", without warranty, express or implied.  *
+*                                                                           *
+*****************************************************************************
+-->
+<!-- 
+Description
+- Defines common participant qos profiles that may be used by multiple services
+  
+Note that here we are passing in an environment variable 
+            $(USER)
+to set the participant_name, so that it is automatically set to the logged in 
+user id that is running the application. Make sure this environment variable is
+defined, else you will get parsing errors. 
+
+The participant name, if it is set, will be displayed in the RTI tools, making 
+it easier for you to tell one application from another when you're debugging. 
+  
+Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
+-->
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.3.1/rti_dds_qos_profiles.xsd"
+    version="5.3.1">
+
+	<!-- Common participant qos profiles 
+	     See $(NDDSHOME)/resource/xml/NDDS_QOS_PROFILES.example.xml 
+	 -->
+	<qos_library name="MyParticipantQosLib">
+	
+		<qos_profile name="User.Generic.Participant"
+			         base_name="BuiltinQosLib::Generic.Common">
+			<participant_qos>
+				<participant_name>
+				    <!-- get the name from environment variable $(USER) -->
+			        <name>$(USER)</name>
+				</participant_name>
+                <resource_limits>
+                    <type_code_max_serialized_length>
+                        0
+                    </type_code_max_serialized_length>
+                    <type_object_max_serialized_length>
+                        65535
+                    </type_object_max_serialized_length>
+                </resource_limits>				
+			</participant_qos>
+		</qos_profile>
+
+		<qos_profile name="User.Generic.Participant.LargeData"
+			base_name="BuiltinQosLibExp::Generic.Participant.LargeData">
+            <participant_qos>
+                <participant_name>
+                    <!-- get the name from environment variable $(USER) -->
+                    <name>$(USER)</name>
+                </participant_name>
+                <resource_limits>
+                    <type_code_max_serialized_length>
+                        0
+                    </type_code_max_serialized_length>
+                    <type_object_max_serialized_length>
+                        65535
+                    </type_object_max_serialized_length>
+                </resource_limits>              
+            </participant_qos>			
+		</qos_profile>		
+	</qos_library>
+
+</dds>

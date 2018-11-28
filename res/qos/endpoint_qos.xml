@@ -1,0 +1,306 @@
+<?xml version="1.0"?>
+<!--
+*****************************************************************************
+*    (c) 2005-2018 Copyright, Real-Time Innovations, All rights reserved.   *
+*                                                                           *
+*         Permission to modify and use for internal purposes granted.       *
+* This software is provided "as is", without warranty, express or implied.  *
+*                                                                           *
+*****************************************************************************
+-->
+<!-- 
+Description
+- Defines common endpoint qos profiles that may be used by multiple services 
+  
+Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
+-->
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.3.1/rti_dds_qos_profiles.xsd"
+    version="5.3.1">
+
+	<!-- Common endpoint qos profiles 
+	     See $(NDDSHOME)/resource/xml/NDDS_QOS_PROFILES.example.xml 
+	 -->
+	<qos_library name="MyEndpointQosLib">
+	
+	    <!-- Ensures in-order loss-less delivery of samples.  
+	         Writer may block for slow readers. -->	
+        <qos_profile name="User.Generic.StrictReliable"
+			         base_name="BuiltinQosLibExp::Generic.StrictReliable">
+			
+            <datawriter_qos>
+            
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to 
+                     serialize the samples -->                
+                <property>
+                    <value>
+                        <element>
+                           <name>
+                           dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size
+                           </name>
+                           <value>4096</value>
+                        </element>
+                    </value>
+                </property>
+            </datawriter_qos>
+
+           <datareader_qos>
+  
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to keep 
+                     the serialized keys for the instances -->        
+                <property>
+                    <value>
+                        <element>
+                            <name>
+                            dds.data_reader.history.memory_manager.fast_pool.pool_buffer_max_size
+                            </name>
+                            <value>4096</value>
+                        </element>
+                    </value>
+               </property>
+            </datareader_qos>
+        </qos_profile>
+		
+        <!-- Enables asynchronous publication with the default flow controller 
+             (i.e. no flow control). Assumes that the participant uses the
+             profile below or a profile derived from it:
+                   MyParticipantQosLib::User.Generic.Participant.LargeData -->
+        <qos_profile name="User.Generic.StrictReliable.LargeData"
+            base_name="BuiltinQosLibExp::Generic.StrictReliable.LargeData">
+            <datawriter_qos>
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                </resource_limits>
+            </datawriter_qos>
+            
+            <datareader_qos>
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                </resource_limits>
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to keep 
+                     the serialized keys for the instances.
+                     
+                     Set to the same value as 
+                     dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size 
+                     in the base profile -->         
+                <property>
+                    <value>
+                        <element>
+                            <name>
+                            dds.data_reader.history.memory_manager.fast_pool.pool_buffer_max_size
+                            </name>
+                            <value>32768</value>
+                        </element>
+                    </value>
+               </property>                
+            </datareader_qos>
+        </qos_profile>
+        		
+	    <!-- Strictly reliable communication for large data with a 100 MB/sec
+		         (838 Mb/sec) flow controller -->
+		<qos_profile
+			name="User.Generic.StrictReliable.LargeData.FastFlow"
+			base_name="User.Generic.StrictReliable.LargeData">
+			<datawriter_qos>
+				<publish_mode>
+					<flow_controller_name>dds.flow_controller.token_bucket.fast_flow</flow_controller_name>
+				</publish_mode>
+			</datawriter_qos>
+		</qos_profile>
+
+		<!-- Strictly reliable communication for large data with a 25 MB/sec
+			(209 Mb/sec) flow controller -->
+		<qos_profile
+			name="User.Generic.StrictReliable.LargeData.MediumFlow"
+			base_name="User.Generic.StrictReliable.LargeData">
+			<datawriter_qos>
+				<publish_mode>
+					<flow_controller_name>dds.flow_controller.token_bucket.medium_flow</flow_controller_name>
+				</publish_mode>
+			</datawriter_qos>
+		</qos_profile>
+	
+		<!-- Strictly reliable communication for large data with a 6.25 MB/sec
+			(52 Mb/sec) flow controller -->
+		<qos_profile
+			name="User.Generic.StrictReliable.LargeData.SlowFlow"
+			base_name="User.Generic.StrictReliable.LargeData">
+			<datawriter_qos>
+				<publish_mode>
+					<flow_controller_name>dds.flow_controller.token_bucket.slow_flow</flow_controller_name>
+				</publish_mode>
+			</datawriter_qos>
+		</qos_profile>
+            		
+            		
+        <!-- Ensures in-order delivery of samples. New samples may overwrite 
+             older samples that have not yet been acknowledged by a reader.
+             History determines the number of samples to make available. -->            		
+        <qos_profile name="User.Generic.KeepLastReliable"
+            base_name="BuiltinQosLibExp::Generic.KeepLastReliable">
+            
+            <datawriter_qos>
+            
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>3</depth>
+                </history>
+                                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to 
+                     serialize the samples -->              
+                <property>
+                    <value>
+                        <element>
+                           <name>
+                           dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size
+                           </name>
+                           <value>4096</value>
+                        </element>
+                    </value>
+                </property>
+            </datawriter_qos>
+
+           <datareader_qos>
+  
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                    <initial_samples>1</initial_samples>
+                </resource_limits>
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>1</depth>
+                </history>                
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to keep 
+                     the serialized keys for the instances -->        
+                <property>
+                    <value>
+                        <element>
+                            <name>
+                            dds.data_reader.history.memory_manager.fast_pool.pool_buffer_max_size
+                            </name>
+                            <value>4096</value>
+                        </element>
+                    </value>
+               </property>
+            </datareader_qos>
+        </qos_profile>
+        
+        <!-- Enables asynchronous publication with the default flow controller 
+             (i.e. no flow control). Assumes that the participant uses the
+             profile below or a profile derived from it:
+                   MyParticipantQosLib::User.Generic.Participant.LargeData -->
+        <qos_profile name="User.Generic.KeepLastReliable.LargeData"
+            base_name="BuiltinQosLibExp::Generic.KeepLastReliable.LargeData">
+            <datawriter_qos>
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                </resource_limits>
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>3</depth>
+                </history>                                     
+            </datawriter_qos>
+            
+           <datareader_qos>
+                <!-- reduce the initial pre-allocation -->
+                <resource_limits>
+                    <initial_instances>1</initial_instances>
+                </resource_limits>
+                <history>
+                    <kind>KEEP_LAST_HISTORY_QOS</kind>
+                    <depth>1</depth>
+                </history>                
+                
+                <!-- This property is needed when using -unboundedSupport 
+                     command-line option in order to configure the memory 
+                     allocation policy for the buffers that are used to keep 
+                     the serialized keys for the instances.
+                     
+                     Set to the same value as 
+                     dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size 
+                     in the base profile -->   
+                <property>
+                    <value>
+                        <element>
+                            <name>
+                            dds.data_reader.history.memory_manager.fast_pool.pool_buffer_max_size
+                            </name>
+                            <value>32768</value>
+                        </element>
+                    </value>
+               </property>
+            </datareader_qos>
+        </qos_profile>
+
+		<!-- Keep-last reliable communication for large data with a 100 MB/sec
+			(838 Mb/sec) flow controller -->
+		<qos_profile
+			name="User.Generic.KeepLastReliable.LargeData.FastFlow"
+			base_name="User.Generic.KeepLastReliable.LargeData">
+			<datawriter_qos>
+				<publish_mode>
+					<flow_controller_name>dds.flow_controller.token_bucket.fast_flow</flow_controller_name>
+				</publish_mode>
+			</datawriter_qos>
+		</qos_profile>
+	
+		<!-- Keep-last reliable communication for large data with a 25 MB/sec
+			(209 Mb/sec) flow controller -->
+		<qos_profile
+			name="User.Generic.KeepLastReliable.LargeData.MediumFlow"
+			base_name="User.Generic.KeepLastReliable.LargeData">
+			<datawriter_qos>
+				<publish_mode>
+					<flow_controller_name>dds.flow_controller.token_bucket.medium_flow</flow_controller_name>
+				</publish_mode>
+			</datawriter_qos>
+		</qos_profile>
+	
+		<!-- Keep-last reliable communication for large data with a 6.25 MB/sec
+			(52 Mb/sec) flow controller -->
+		<qos_profile
+			name="User.Generic.KeepLastReliable.LargeData.SlowFlow"
+			base_name="User.Generic.KeepLastReliable.LargeData">
+			<datawriter_qos>
+				<publish_mode>
+					<flow_controller_name>dds.flow_controller.token_bucket.slow_flow</flow_controller_name>
+				</publish_mode>
+			</datawriter_qos>
+		</qos_profile>
+                
+	</qos_library>
+
+</dds>

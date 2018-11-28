@@ -14,8 +14,10 @@ The data type used by this example is defined in the file
 used by the RTI Shapes Demo. 
 
 
-The DDS-XML App Configuration is defined in the file [if/Shapes_if.xml](if/Shapes_if.xml). The `NDDS_QOS_PROFILES` environment variable defines the list of
-XML files to be loaded automatically before a domain participant is created. 
+The DDS-XML App Configuration is defined in the file 
+[if/Shapes_if.xml](if/Shapes_if.xml). The `NDDS_QOS_PROFILES` environment variable 
+defines the list of XML files to be loaded automatically before a domain 
+participant is created. 
 
 
 # How to (re)build the example?
@@ -61,7 +63,7 @@ From the top-level directory (containing this README):
 Ensure that the environment variable `NDDS_QOS_PROFILES` list the DDS-XML files
 to be loaded.
 
-    export NDDS_QOS_PROFILES="res/qos/Shapes_qos.xml;if/Shapes_if.xml"
+    export NDDS_QOS_PROFILES="res/qos/endpoint_qos.xml;res/qos/participant_qos.xml;res/qos/Shapes_qos.xml;if/Shapes_if.xml"
 
 Run the components from the top-level directory (containing this README) 
 as follows.
