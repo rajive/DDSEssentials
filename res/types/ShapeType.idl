@@ -29,5 +29,17 @@ module rti {
             ShapeFillKind fillKind;
             float angle;
         };
+
+
+
+        const long PIXEL_MAX_LEN = 100000; // can be large (> 64KB UDP limit)
+        struct PictureType {
+            short dim;                            // dimension: width or height
+            sequence<octet, PIXEL_MAX_LEN> pixel; // pixels
+        };
+
+        struct PictureShapeType: ShapeType {
+            PictureType picture;
+        };
 	};
 };
