@@ -53,7 +53,14 @@ objs\<arch>\ShapeType_subscriber <domain_id>
 void publisher_main(int domain_id, int sample_count)
 {
 	// Register types
-	rti::domain::register_type<rti::example::ShapeType>("ShapeType");
+	// Note: This demonstrates the use of DDS extensible types,
+	//       since "PictureShapeType : ShapeType" in the IDL  definition.
+	//       The PictureShapeType extends ShapeType and can contain a picture.
+	//
+	//       Both the IDL versions will be registered under the name "ShapeType"
+	//       in the DDS domain, and the type assignability between the two
+	//       structural representations is automatically handled by DDS.
+	rti::domain::register_type<rti::example::PictureShapeType>("ShapeType");
 
     // Create a DomainParticipant from the named configuration
 	dds::domain::DomainParticipant participant =
@@ -61,13 +68,22 @@ void publisher_main(int domain_id, int sample_count)
 	            "MyServiceIfLib::MyService.Pub");
 
     // Lookup DataWriter
-    dds::pub::DataWriter<rti::example::ShapeType> writer =
+    dds::pub::DataWriter<rti::example::PictureShapeType> writer =
 			rti::pub::find_datawriter_by_name<
-			dds::pub::DataWriter<rti::example::ShapeType> >(
+			dds::pub::DataWriter<rti::example::PictureShapeType> >(
 				participant, "MyPublisher::MyWriter");
 
-    rti::example::ShapeType sample;
+    rti::example::PictureShapeType sample;
 	sample.color("RED");
+
+	// Large Data: un-comment the line below to force a large sample
+	//     The picture size can exceed the UDP limit of 64KB, and illustrates
+	//     that the "large data" transfer scenario can be transparently
+	//     handled by DDS. The _qos.xml file configures the DataWriter's qos
+	//     policies to use asynchronous publishing in a background thread.
+	//
+	// sample.picture().pixel().resize(80000); // large data > 64KB UDP limit
+
     for (int count = 0; count < sample_count || sample_count == 0; count++) {
         // Modify the data to be written here
     	sample.x(20 + (count*10) % 230);
