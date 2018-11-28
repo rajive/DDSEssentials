@@ -7,6 +7,18 @@
 /*****************************************************************************/
 
 module rti {
+
+    module picture {
+        const short WIDTH  = 640;
+        const short HEIGHT = 480; 
+
+        @nested 
+        struct PictureType {
+            short dim;                             // dimension: width or height
+            sequence<octet, WIDTH * HEIGHT> pixel; // pixels
+        }; 
+    };
+
 	module example {
 
 		struct ShapeType {
@@ -31,16 +43,8 @@ module rti {
         };
 
 
-
-        const short PICTURE_WIDTH  = 640;
-        const short PICTURE_HEIGHT = 480; 
-        struct PictureType {
-            short dim;                         // dimension: width or height
-            sequence<octet, PICTURE_WIDTH * PICTURE_HEIGHT> pixel; // pixels
-        };
-
         struct PictureShapeType: ShapeTypeExtended {
-            PictureType picture;
+            picture::PictureType picture;
         };
 	};
 };
