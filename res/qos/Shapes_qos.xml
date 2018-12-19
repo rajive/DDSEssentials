@@ -35,9 +35,9 @@ Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
 				base_name="MyEndpointQosLib::User.Generic.StrictReliable" />
 
 			<datareader_qos topic_filter="Circle"
-				base_name="MyEndpointQosLib::User.Generic.KeepLastReliable.LargeData" />
+				base_name="MyEndpointQosLib::User.Generic.StrictReliable.LargeData" />
 			<datawriter_qos topic_filter="Circle"
-				base_name="MyEndpointQosLib::User.Generic.KeepLastReliable.LargeData" />
+				base_name="MyEndpointQosLib::User.Generic.StrictReliable.LargeData" />
 
 			<datareader_qos topic_filter="Triangle"
 				base_name="MyEndpointQosLib::User.Generic.KeepLastReliable" />

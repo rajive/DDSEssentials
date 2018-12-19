@@ -28,7 +28,15 @@ participant is created.
     
 ## Generate the types in C++11 (needed only for C++: using compiled types)
 
-    rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -update typefiles res/types/ShapeType.idl -d src/c++11
+Modern C++ (C++11):
+
+    rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -update typefiles -d src/c++11 res/types/ShapeType.idl 
+    
+    
+Traditional C++ (C++98):
+
+    rtiddsgen -ppDisable -language C++ -unboundedSupport -namespace -useStdString -update typefiles -d src/cpp res/types/ShapeType.idl 
+    
     
     
 ## Setup makefile
@@ -39,9 +47,16 @@ participant is created.
   
         export PLATFORM=x64Darwin17clang9.0 
     
-- Generate makefile (needed only for C++)
+- Generate makefile (needed for C++)
 
-	   rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -update makefiles -platform $PLATFORM res/types/ShapeType.idl -d src/c++11
+Modern C++ (C++11):
+
+	   rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -platform $PLATFORM -update makefiles -d src/c++11 res/types/ShapeType.idl 
+	   
+Traditional C++ (C++98):
+
+    rtiddsgen -ppDisable -language C++ -unboundedSupport -namespace -useStdString -platform $PLATFORM -update makefiles -d src/cpp res/types/ShapeType.idl 
+	   
 
 - Create a soft-link to the generated makefile 
   (`makefile -> makefile_ShapeType_<platform>`)

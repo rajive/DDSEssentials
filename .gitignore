@@ -37,6 +37,7 @@ makefile_*
 *Type.c*
 *Type.xml
 *TypePlugin.*
+*TypeSupport.*
 objs/
 
 # Eclipse

@@ -88,9 +88,8 @@ void publisher_main(int domain_id, int sample_count)
     	//    handled by DDS. The _qos.xml file configures the DataWriter's qos
     	//    policies to use asynchronous publishing in a background thread.
     	//
-    	sample.picture().dim(rti::picture::WIDTH);
-		sample.picture().pixel().resize(rti::picture::WIDTH *
-										rti::picture::HEIGHT);
+    	//sample.picture().dim(rti::picture::WIDTH);
+		//sample.picture().pixel().resize(rti::picture::WIDTH * rti::picture::HEIGHT);
 
         std::cout << "Writing ShapeType, count " << count << std::endl;
         writer.write(sample);

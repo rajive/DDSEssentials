@@ -88,6 +88,13 @@ Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
                 <resource_limits>
                     <initial_instances>1</initial_instances>
                 </resource_limits>
+		        <protocol>
+		          <rtps_reliable_writer>
+		            <max_send_window_size>30</max_send_window_size>
+		            <min_send_window_size>30</min_send_window_size>
+		            <heartbeats_per_max_samples>30</heartbeats_per_max_samples>
+		          </rtps_reliable_writer>
+		        </protocol>                
             </datawriter_qos>
             
             <datareader_qos>
