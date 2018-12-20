@@ -11,7 +11,7 @@
 --    Publish a shape (make a circular pattern)
 -- 
 -- HOW TO?
---  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Pub -luaFile lua/ShapeType_publisher.lua
+--  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Pub -luaFile src/lua/ShapeType_publisher.lua
 --
 --  ShapesDemo: 
 --    Subscribe to the shape
@@ -26,13 +26,9 @@ end
 
 print("*** iteration ", count,  "***")
 
-local shapesize = 10 * (count % 4)
-
 MyWriter.instance['color'] = "YELLOW"
 MyWriter.instance['x'] = center + radius * math.sin(count)
 MyWriter.instance['y'] = center + radius * math.cos(count) 
-MyWriter.instance['shapesize'] = shapesize
-
-radius = 80
+MyWriter.instance['shapesize'] = 20 -- 10 * (count % 4)
 
 MyWriter:write()

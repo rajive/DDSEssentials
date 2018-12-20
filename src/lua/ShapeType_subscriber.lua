@@ -11,7 +11,16 @@
 --    Subscribe to a shape 
 -- 
 -- HOW TO?
---  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -luaFile lua/ShapeType_subscriber.lua
+-- 
+-- Polled
+--  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -period 4 -luaOnData false -luaFile src/lua/ShapeType_subscriber.lua
+--          
+-- Event         
+--  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -luaOnPeriod false -luaFile src/lua/ShapeType_subscriber.lua
+--  
+-- Polled or Event:
+--  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -luaFile src/lua/ShapeType_subscriber.lua
+--                                      
 --
 --  ShapesDemo: 
 --    Publish the shape
@@ -37,4 +46,5 @@ for  i, shape in ipairs(MyReader.samples) do
   print("\t x:", shape['x']) 
   print("\t y:", shape['y'])
   print("\t shapesize:", shape['shapesize']) 
+  
 end

@@ -137,7 +137,7 @@ extern "C" int publisher_main(int domainId, int sample_count)
     and register the keyed instance prior to writing */
     sample.color= "RED";
     InstanceHandle_t instance_handle = HANDLE_NIL;
-    instance_handle = ShapeType_writer->register_instance(sample);
+    //instance_handle = ShapeType_writer->register_instance(sample);
 
 
     /* Main loop */

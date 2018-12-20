@@ -165,6 +165,7 @@ static int subscriber_shutdown(
 extern "C" int subscriber_main(int domainId, int sample_count)
 {
     DomainParticipant *participant = NULL;
+    rti::example::ShapeTypeListener *reader_listener = NULL;
     rti::example::ShapeTypeDataReader *reader = NULL;
     ReturnCode_t retcode;
     int count = 0;
@@ -203,36 +204,9 @@ extern "C" int subscriber_main(int domainId, int sample_count)
     }
 
 
-    /* Setup StatusCondition */
-    StatusCondition* status_condition = reader->get_statuscondition();
-    retcode = status_condition->set_enabled_statuses(DDS_DATA_AVAILABLE_STATUS);
-    if (retcode != DDS_RETCODE_OK) {
-        printf("set_enabled_statuses error\n");
-        subscriber_shutdown(participant);
-        return -1;
-    }
+    /* Create a data reader listener */
+    reader_listener = new rti::example::ShapeTypeListener();
 
-    /* Create a status condition handler */
-    rti::example::ShapeTypeListener reader_listener; // use a listener interface
-    DDSDataReaderStatusConditionHandler reader_status_condition_handler(reader,
-    								&reader_listener,
-									status_condition->get_enabled_statuses());
-    retcode = status_condition->set_handler(&reader_status_condition_handler);
-    if (retcode != DDS_RETCODE_OK) {
-        printf("status_condition->set_handler() error\n");
-        subscriber_shutdown(participant);
-        return -1;
-    }
-
-    /* Setup WaitSet */
-    WaitSet waitset;
-    retcode = waitset.attach_condition(status_condition);
-    if (retcode != DDS_RETCODE_OK) {
-        subscriber_shutdown(participant);
-        return -1;
-    }
-
-    ConditionSeq active_conditions; // holder for active conditions
 
     /* Main loop */
     for (count=0; (sample_count == 0) || (count < sample_count); ++count) {
@@ -240,17 +214,15 @@ extern "C" int subscriber_main(int domainId, int sample_count)
         printf("rti::example::ShapeType subscriber sleeping for %d sec...\n",
         receive_period.sec);
 
-        /* Wait for condition to trigger */
-        retcode = waitset.wait(active_conditions, receive_period);
-        if (retcode == DDS_RETCODE_OK) {
-            for (int i = 0; i < active_conditions.length(); ++i) {
-            	active_conditions[i]->dispatch();
-            }
-        }
+        // poll the reader:
+        reader_listener->on_data_available(reader);
+
+        NDDSUtility::sleep(receive_period);
     }
 
     /* Delete all entities */
     status = subscriber_shutdown(participant);
+    delete reader_listener;
 
     return status;
 }

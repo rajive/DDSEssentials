@@ -6,25 +6,27 @@ system architecture.
  
  The example shows how to use DDS-XML with
  
- - Compiled types with the Modern C++11 API
+ - Compiled types with implementations in multiple languages
+    - Modern C++ API (C++11)
+    - Traditional C++ API (C++98)
  - Dynamic types using the `rtiddsprototyper` (suitable for blackbox testing)
 
-The data type used by this example is defined in the file 
-[res/types/ShapeType.idl](res/types/ShapeType.idl), also 
+The datatypes used by this example are defined in the file 
+[res/types/ShapeType.idl](res/types/ShapeType.idl), and compatible with those 
 used by the RTI Shapes Demo. 
 
+The data-oriented inteterfaces using DDS-XML App Configuration are defined in 
+the file [if/Shapes_if.xml](if/Shapes_if.xml). 
 
-The DDS-XML App Configuration is defined in the file 
-[if/Shapes_if.xml](if/Shapes_if.xml). The `NDDS_QOS_PROFILES` environment variable 
-defines the list of XML files to be loaded automatically before a domain 
-participant is created. 
+The `NDDS_QOS_PROFILES` environment variable specifies the list of XML files to 
+be loaded automatically before a domain participant is created. 
 
 
 # How to (re)build the example?
 
 ## Generate the types in XML (used by Lua: using dynamic types)
 
-    rtiddsgen -ppDisable -convertToXml res/types/ShapeType.idl -d res/types
+    rtiddsgen -ppDisable -convertToXml -d res/types res/types/ShapeType.idl
     
 ## Generate the types in C++11 (needed only for C++: using compiled types)
 
@@ -51,7 +53,7 @@ Traditional C++ (C++98):
 
 Modern C++ (C++11):
 
-	   rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -platform $PLATFORM -update makefiles -d src/c++11 res/types/ShapeType.idl 
+    rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -platform $PLATFORM -update makefiles -d src/c++11 res/types/ShapeType.idl 
 	   
 Traditional C++ (C++98):
 
@@ -61,7 +63,7 @@ Traditional C++ (C++98):
 - Create a soft-link to the generated makefile 
   (`makefile -> makefile_ShapeType_<platform>`)
 
-        cd src/c++11
+        cd src/c++11  # OR    cd src/cpp
         ln -s makefile_ShapeType_$PLATFORM makefile
         cd ../..
 
@@ -89,6 +91,9 @@ as follows.
 
 	   ./src/c++11/objs/$PLATFORM/ShapeType_publisher 
 
+- c++98
+
+       ./src/cpp/objs/$PLATFORM/ShapeType_publisher 
 
 - lua
 
@@ -101,6 +106,10 @@ as follows.
 - c++11
 
         ./src/c++11/objs/$PLATFORM/ShapeType_subscriber 
+        
+- c++98
+
+        ./src/cpp/objs/$PLATFORM/ShapeType_subscriber 
     
 - lua
 

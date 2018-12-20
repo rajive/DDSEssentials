@@ -74,7 +74,7 @@ void publisher_main(int domain_id, int sample_count)
 				participant, "MyPublisher::MyWriter");
 
     rti::example::PictureShapeType sample;
-	sample.color("RED");
+	sample.color("ORANGE");
     for (int count = 0; count < sample_count || sample_count == 0; count++) {
         // Modify the data to be written here
     	sample.x(20 + (count*10) % 230);

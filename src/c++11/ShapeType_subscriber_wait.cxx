@@ -75,7 +75,7 @@ int subscriber_main(int domain_id, int sample_count)
         [&reader, &count]()
     {
         // Take all samples
-        dds::sub::LoanedSamples<rti::example::ShapeType> samples = reader.read();
+        dds::sub::LoanedSamples<rti::example::ShapeType> samples = reader.take();
         for (auto sample : samples){
             if (sample.info().valid()){
                 count++;
