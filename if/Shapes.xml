@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 *****************************************************************************
-*    (c) 2005-2018 Copyright, Real-Time Innovations, All rights reserved.   *
+*    (c) 2005-2019 Copyright, Real-Time Innovations, All rights reserved.   *
 *                                                                           *
 *         Permission to modify and use for internal purposes granted.       *
 * This software is provided "as is", without warranty, express or implied.  *
@@ -17,8 +17,7 @@ Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
 -->
 <dds
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.3.1/rti_dds_profiles.xsd"
-    version="5.3.1">
+    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/latest/rti_dds_profiles.xsd">
      
      
     <!-- types -->
@@ -27,91 +26,92 @@ Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
     </types>
 
     <!-- Domain Library -->
-    <domain_library name="MyDomainLib" >
+    <domain_library name="ShapesDomLib" >
 
         <!-- Define a data-space -->
-        <domain name="MyDomain">
+        <domain name="Shapes">
         
             <!-- register type names (defined by <types>) in the data-space -->
-			<register_type name="ShapeType" type_ref="rti::example::ShapeType"/>
+			<register_type name="ShapeType" type_ref="rti::shapes::ShapeType"/>
 			
             <!-- use registered type names to define topics -->			
             <topic name="Square"    register_type_ref="ShapeType"/>
             <topic name="Circle"    register_type_ref="ShapeType"/>      
             <topic name="Triangle"  register_type_ref="ShapeType"/> 
-                  
+      
         </domain>
+        
     </domain_library>
 
 
 
     <!-- Participant library -->
-    <domain_participant_library name="MyServiceIfLib">
+    <domain_participant_library name="ShapesIfLib">
 
 
          <!-- Define a data-oriented interface: Pub -->
-        <domain_participant name="MyService.Pub" 
-                            domain_ref="MyDomainLib::MyDomain">
+        <domain_participant name="Shapes_Pub" 
+                            domain_ref="ShapesDomLib::Shapes">
                             
             <!-- outputs -->           
-            <publisher name="MyPublisher">
+            <publisher name="_pub">
             
-                <data_writer name="MyWriter" topic_ref="Circle">
-                    <datawriter_qos base_name="MyServiceQosLib::MyService.Pub"/>
+                <data_writer name="Shape_writer" topic_ref="Circle">
+                    <datawriter_qos base_name="ShapesQosLib::Shapes_Pub"/>
                 </data_writer>
                 
-                <publisher_qos base_name="MyServiceQosLib::MyService.Pub"/> 
+                <publisher_qos base_name="ShapesQosLib::Shapes_Pub"/> 
             </publisher>  
             
-            <participant_qos base_name="MyServiceQosLib::MyService.Pub"/>      
+            <participant_qos base_name="ShapesQosLib::Shapes_Pub"/>      
         </domain_participant>
         
         
         
         <!-- Define a data-oriented interface: Sub -->
-        <domain_participant name="MyService.Sub"
-                            domain_ref="MyDomainLib::MyDomain">
+        <domain_participant name="Shapes_Sub"
+                            domain_ref="ShapesDomLib::Shapes">
                             
-            <subscriber name="MySubscriber">
+            <subscriber name="_sub">
             
                  <!-- inputs -->            
-                <data_reader name="MyReader" topic_ref="Circle">
-                    <datareader_qos base_name="MyServiceQosLib::MyService.Sub"/>
+                <data_reader name="Shape_reader" topic_ref="Circle">
+                    <datareader_qos base_name="ShapesQosLib::Shapes_Sub"/>
                 </data_reader>
                 
-                <subscriber_qos base_name="MyServiceQosLib::MyService.Sub"/> 
+                <subscriber_qos base_name="ShapesQosLib::Shapes_Sub"/> 
             </subscriber>
             
-            <participant_qos base_name="MyServiceQosLib::MyService.Sub"/>             
+            <participant_qos base_name="ShapesQosLib::Shapes_Sub"/>             
         </domain_participant>
         
         
         
         <!-- Define a data-oriented interface: PubSub -->
-        <domain_participant name="MyService.PubSub"
-                            domain_ref="MyDomainLib::MyDomain">
+        <domain_participant name="Shapes_PubSub"
+                            domain_ref="ShapesDomLib::Shapes">
                           
             <!-- inputs -->   
-            <subscriber name="MySubscriber">
+            <subscriber name="_sub">
             
-                <data_reader name="MyReader" topic_ref="Square">
-                    <datareader_qos base_name="MyServiceQosLib::MyService.PubSub"/>
+                <data_reader name="Shape_reader" topic_ref="Square">
+                    <datareader_qos base_name="ShapesQosLib::Shapes_PubSub"/>
                 </data_reader>
                 
-                <subscriber_qos base_name="MyServiceQosLib::MyService.PubSub"/> 
+                <subscriber_qos base_name="ShapesQosLib::Shapes_PubSub"/> 
             </subscriber>
             
             <!-- outputs -->             
-            <publisher name="MyPublisher">
+            <publisher name="_pub">
             
-                <data_writer name="MyWriter" topic_ref="Circle">
-                    <datawriter_qos base_name="MyServiceQosLib::MyService.PubSub"/>
+                <data_writer name="Shape_writer" topic_ref="Circle">
+                    <datawriter_qos base_name="ShapesQosLib::Shapes_PubSub"/>
                 </data_writer>
                 
-                <publisher_qos base_name="MyServiceQosLib::MyService.PubSub"/> 
+                <publisher_qos base_name="ShapesQosLib::Shapes_PubSub"/> 
             </publisher>   
                        
-            <participant_qos base_name="MyServiceQosLib::MyService.PubSub"/>            
+            <participant_qos base_name="ShapesQosLib::Shapes_PubSub"/>            
         </domain_participant>
        
     </domain_participant_library>

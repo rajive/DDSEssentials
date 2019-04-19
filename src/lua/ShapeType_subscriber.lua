@@ -13,13 +13,13 @@
 -- HOW TO?
 -- 
 -- Polled
---  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -period 4 -luaOnData false -luaFile src/lua/ShapeType_subscriber.lua
+--  rtiddsprototyper -cfgName ShapesIfLib::Shapes_Sub -period 4 -luaOnData false -luaFile src/lua/ShapeType_subscriber.lua
 --          
 -- Event         
---  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -luaOnPeriod false -luaFile src/lua/ShapeType_subscriber.lua
+--  rtiddsprototyper -cfgName ShapesIfLib::Shapes_Sub -luaOnPeriod false -luaFile src/lua/ShapeType_subscriber.lua
 --  
 -- Polled or Event:
---  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -luaFile src/lua/ShapeType_subscriber.lua
+--  rtiddsprototyper -cfgName ShapesIfLib::Shapes_Sub -luaFile src/lua/ShapeType_subscriber.lua
 --                                      
 --
 --  ShapesDemo: 
@@ -29,7 +29,7 @@
 if count then count = count + 1 
 else 
   count = 0
-  MyReader = CONTAINER.READER['MySubscriber::MyReader']
+  MyReader = CONTAINER.READER['_sub::Shape_reader']
 end
 
 print("*** iteration ", count,  "***")

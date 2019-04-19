@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
 *****************************************************************************
-*    (c) 2005-2018 Copyright, Real-Time Innovations, All rights reserved.   *
+*    (c) 2005-2019 Copyright, Real-Time Innovations, All rights reserved.   *
 *                                                                           *
 *         Permission to modify and use for internal purposes granted.       *
 * This software is provided "as is", without warranty, express or implied.  *
@@ -19,14 +19,13 @@ Description
 Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
 -->
 <dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/5.3.1/rti_dds_qos_profiles.xsd"
-    version="5.3.1">
+    xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/latest/rti_dds_qos_profiles.xsd">
 
 	<!-- Service QosProfiles -->
-	<qos_library name="MyServiceQosLib">
+	<qos_library name="ShapesQosLib">
 
 		<!-- Topic specific QosProfile, common across all the interfaces -->
-		<qos_profile name="MyService"
+		<qos_profile name="Shapes_Root"
 			base_name="MyEndpointQosLib::User.Generic.StrictReliable">
 
 			<datareader_qos topic_filter="Square"
@@ -46,19 +45,19 @@ Author: Rajive Joshi, Real-Time Innovations Inc. Copyright (C) 2018.
 		</qos_profile>
 
         <!-- Interface specific QosProfile: Pub -->
-		<qos_profile name="MyService.Pub" base_name="MyService">
+		<qos_profile name="Shapes_Pub" base_name="Shapes_Root">
 			<participant_qos
 				base_name="MyParticipantQosLib::User.Generic.Participant.LargeData" />
 		</qos_profile>
 
         <!-- Interface specific QosProfile: Sub -->
-		<qos_profile name="MyService.Sub" base_name="MyService">
+		<qos_profile name="Shapes_Sub" base_name="Shapes_Root">
 			<participant_qos
 				base_name="MyParticipantQosLib::User.Generic.Participant.LargeData" />
 		</qos_profile>
 
         <!-- Interface specific QosProfile: PubSub -->
-		<qos_profile name="MyService.PubSub" base_name="MyService">
+		<qos_profile name="Shapes_PubSub" base_name="Shapes_Root">
 			<participant_qos
 				base_name="MyParticipantQosLib::User.Generic.Participant.LargeData" />
 		</qos_profile>

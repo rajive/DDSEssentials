@@ -80,7 +80,7 @@ From the top-level directory (containing this README):
 Ensure that the environment variable `NDDS_QOS_PROFILES` list the DDS-XML files
 to be loaded.
 
-    export NDDS_QOS_PROFILES="res/qos/endpoint_qos.xml;res/qos/participant_qos.xml;res/qos/Shapes_qos.xml;if/Shapes_if.xml"
+    export NDDS_QOS_PROFILES="res/qos/endpoint_qos.xml;res/qos/participant_qos.xml;res/qos/Shapes_qos.xml;if/Shapes.xml"
 
 Run the components from the top-level directory (containing this README) 
 as follows.
@@ -97,7 +97,7 @@ as follows.
 
 - lua
 
-	   rtiddsprototyper -cfgName MyServiceIfLib::MyService.Pub -luaFile src/lua/ShapeType_publisher.lua
+	   rtiddsprototyper -cfgName ShapesIfLib::Shapes_Pub -luaFile src/lua/ShapeType_publisher.lua
 
 
 
@@ -113,7 +113,7 @@ as follows.
     
 - lua
 
-	   rtiddsprototyper -cfgName MyServiceIfLib::MyService.Sub -luaFile src/lua/ShapeType_subscriber.lua
+	   rtiddsprototyper -cfgName ShapesIfLib::Shapes_Sub -luaFile src/lua/ShapeType_subscriber.lua
 
 ### Optional
 

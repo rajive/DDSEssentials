@@ -19,7 +19,7 @@ module rti {
         }; 
     };
 
-	module example {
+	module shapes {
 
 		struct ShapeType {
 			@key // identifies the instance (a.k.a data-object)
@@ -45,6 +45,15 @@ module rti {
 
         struct PictureShapeType : ShapeTypeExtended {
             picture::PictureType picture;
+        };
+
+
+        module name { // Names defined the DDS-XML file
+            const string SHAPES_PUB_IF    = "ShapesIfLib::Shapes_Pub";
+            const string SHAPES_SUB_IF    = "ShapesIfLib::Shapes_Sub";
+            const string SHAPE_TYPE       = "ShapeType";
+            const string SHAPE_WRITER     = "_pub::Shape_writer";
+            const string SHAPE_READER     = "_sub::Shape_reader";
         };
 	};
 };

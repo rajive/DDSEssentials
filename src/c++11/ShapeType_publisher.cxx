@@ -60,20 +60,20 @@ void publisher_main(int domain_id, int sample_count)
 	//       Both the IDL versions will be registered under the name "ShapeType"
 	//       in the DDS domain, and the type assignability between the two
 	//       structural representations is automatically handled by DDS.
-	rti::domain::register_type<rti::example::PictureShapeType>("ShapeType");
+	rti::domain::register_type<rti::shapes::PictureShapeType>(rti::shapes::name::SHAPE_TYPE);
 
     // Create a DomainParticipant from the named configuration
 	dds::domain::DomainParticipant participant =
 	        dds::core::QosProvider::Default()->create_participant_from_config(
-	            "MyServiceIfLib::MyService.Pub");
+	        		rti::shapes::name::SHAPES_PUB_IF);
 
     // Lookup DataWriter
-    dds::pub::DataWriter<rti::example::PictureShapeType> writer =
+    dds::pub::DataWriter<rti::shapes::PictureShapeType> writer =
 			rti::pub::find_datawriter_by_name<
-			dds::pub::DataWriter<rti::example::PictureShapeType> >(
-				participant, "MyPublisher::MyWriter");
+			dds::pub::DataWriter<rti::shapes::PictureShapeType> >(
+				participant, rti::shapes::name::SHAPE_WRITER);
 
-    rti::example::PictureShapeType sample;
+    rti::shapes::PictureShapeType sample;
 	sample.color("ORANGE");
     for (int count = 0; count < sample_count || sample_count == 0; count++) {
         // Modify the data to be written here

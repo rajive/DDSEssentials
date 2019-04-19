@@ -11,7 +11,7 @@
 --    Publish a shape (make a circular pattern)
 -- 
 -- HOW TO?
---  rtiddsprototyper -cfgName MyServiceIfLib::MyService.Pub -luaFile src/lua/ShapeType_publisher.lua
+--  rtiddsprototyper -cfgName ShapesIfLib::Shapes_Pub -luaFile src/lua/ShapeType_publisher.lua
 --
 --  ShapesDemo: 
 --    Subscribe to the shape
@@ -21,7 +21,7 @@ if count then count = count + 1
 else -- initialize (first time)
   count = 0
   center = 120; radius = 70; yAmplitude = 100 
-  MyWriter = CONTAINER.WRITER['MyPublisher::MyWriter']
+  MyWriter = CONTAINER.WRITER['_pub::Shape_writer']
 end
 
 print("*** iteration ", count,  "***")
