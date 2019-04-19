@@ -43,7 +43,7 @@ module rti {
         };
 
 
-        struct PictureShapeType: ShapeTypeExtended {
+        struct PictureShapeType : ShapeTypeExtended {
             picture::PictureType picture;
         };
 	};
