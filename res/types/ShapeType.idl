@@ -46,14 +46,20 @@ module rti {
         struct PictureShapeType : ShapeTypeExtended {
             picture::PictureType picture;
         };
+    };
+};
 
-
-        module name { // Names defined the DDS-XML file
-            const string SHAPES_PUB_IF    = "ShapesIfLib::Shapes_Pub";
-            const string SHAPES_SUB_IF    = "ShapesIfLib::Shapes_Sub";
-            const string SHAPE_TYPE       = "ShapeType";
-            const string SHAPE_WRITER     = "_pub::Shape_writer";
-            const string SHAPE_READER     = "_sub::Shape_reader";
+// Names defined the DDS-XML file
+module My {
+    module If { 
+        const string PUB            = "ShapesIfLib::Shapes_Pub";
+        const string SUB            = "ShapesIfLib::Shapes_Sub";
+    };
+    module Topic {
+        module Shape {
+            const string TYPE       = "ShapeType";
+            const string WRITER     = "_pub::Shape_writer";
+            const string READER     = "_sub::Shape_reader";
         };
-	};
+    };
 };

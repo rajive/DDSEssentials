@@ -54,18 +54,18 @@ objs\<arch>\ShapeType_subscriber <domain_id>
 int subscriber_main(int domain_id, int sample_count)
 {
 	// Register types
-	rti::domain::register_type<rti::shapes::ShapeType>(rti::shapes::name::SHAPE_TYPE);
+	rti::domain::register_type<rti::shapes::ShapeType>(My::Topic::Shape::TYPE);
 
 	// Create a DomainParticipant from the named configuration
 	dds::domain::DomainParticipant participant =
 			dds::core::QosProvider::Default()->create_participant_from_config(
-					rti::shapes::name::SHAPES_SUB_IF);
+			                                                      My::If::SUB);
 
 	// Lookup DataReader
 	dds::sub::DataReader<rti::shapes::ShapeType> reader =
 			rti::sub::find_datareader_by_name<
 			dds::sub::DataReader<rti::shapes::ShapeType> >(
-					participant, rti::shapes::name::SHAPE_READER);
+					participant, My::Topic::Shape::READER);
 
 	// Empty DataReader’s cache periodically
     for (int count = 0; count < sample_count || sample_count == 0; count++) {

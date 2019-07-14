@@ -100,7 +100,7 @@ extern "C" int publisher_main(int domainId, int sample_count)
     /* Register types */
     retcode = TheParticipantFactory->register_type_support(
     		rti::shapes::ShapeTypeTypeSupport::register_type,
-			rti::shapes::name::SHAPE_TYPE.c_str());
+    		                        My::Topic::Shape::TYPE.c_str());
     if (retcode != RETCODE_OK) {
         printf("register_type error %d\n", retcode);
         publisher_shutdown(NULL);
@@ -109,8 +109,7 @@ extern "C" int publisher_main(int domainId, int sample_count)
 
     /* Create Participant from XML Config */
     participant = TheParticipantFactory->
-            create_participant_from_config(
-            		rti::shapes::name::SHAPES_PUB_IF.c_str());
+            create_participant_from_config(My::If::PUB.c_str());
     if (participant == NULL) {
         printf("create_participant_from_config error\n");
         publisher_shutdown(participant);
@@ -120,7 +119,7 @@ extern "C" int publisher_main(int domainId, int sample_count)
     /* Lookup the DataWriter */
     ShapeType_writer = rti::shapes::ShapeTypeDataWriter::narrow(
     		participant->lookup_datawriter_by_name(
-    				rti::shapes::name::SHAPE_WRITER.c_str()));
+    		                    My::Topic::Shape::WRITER.c_str()));
     if (ShapeType_writer == NULL) {
         printf("DataWriter narrow error\n");
         publisher_shutdown(participant);

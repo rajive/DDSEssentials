@@ -176,7 +176,7 @@ extern "C" int subscriber_main(int domainId, int sample_count)
     /* Register types */
     retcode = TheParticipantFactory->register_type_support(
     		rti::shapes::ShapeTypeTypeSupport::register_type,
-			rti::shapes::name::SHAPE_TYPE.c_str());
+    		                        My::Topic::Shape::TYPE.c_str());
     if (retcode != RETCODE_OK) {
         printf("register_type error %d\n", retcode);
         subscriber_shutdown(NULL);
@@ -185,8 +185,7 @@ extern "C" int subscriber_main(int domainId, int sample_count)
 
     /* Create Participant from XML Config */
     participant = TheParticipantFactory->
-            create_participant_from_config(
-            		rti::shapes::name::SHAPES_SUB_IF.c_str());
+            create_participant_from_config(My::If::SUB.c_str());
     if (participant == NULL) {
         printf("create_participant_from_config error\n");
         subscriber_shutdown(participant);
@@ -196,7 +195,7 @@ extern "C" int subscriber_main(int domainId, int sample_count)
     /* Lookup the DataReader */
     reader = rti::shapes::ShapeTypeDataReader::narrow(
     		participant->lookup_datareader_by_name(
-    				rti::shapes::name::SHAPE_READER.c_str()));
+    		                        My::Topic::Shape::READER.c_str()));
     if (reader == NULL) {
         printf("DataReader narrow error\n");
         subscriber_shutdown(participant);
