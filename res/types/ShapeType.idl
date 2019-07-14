@@ -19,16 +19,15 @@ module rti {
         }; 
     };
 
-	module shapes {
-
-		struct ShapeType {
-			@key // identifies the instance (a.k.a data-object)
-			string<128> color; 
+    module shapes {
+        struct ShapeType {
+            @key // identifies the instance (a.k.a data-object)
+            string<128> color; 
           
-			long x;
-			long y;
-			long shapesize; 
-		};
+            long x;
+            long y;
+            long shapesize; 
+        };
 
         enum ShapeFillKind {
             SOLID_FILL,
@@ -41,7 +40,6 @@ module rti {
             ShapeFillKind fillKind;
             float angle;
         };
-
 
         struct PictureShapeType : ShapeTypeExtended {
             picture::PictureType picture;
