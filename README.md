@@ -28,7 +28,7 @@ be loaded automatically before a domain participant is created.
 
     rtiddsgen -ppDisable -convertToXml -d res/types res/types/ShapeType.idl
     
-## Generate the types in C++11 (needed only for C++: using compiled types)
+## Generate the C++ types (needed by C++ app using compiled types)
 
 Modern C++ (C++11):
 
