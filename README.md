@@ -89,11 +89,11 @@ as follows.
 
 - c++11
 
-	   ./src/c++11/objs/$PLATFORM/ShapeType_publisher 
+	   ./src/c++11/objs/$PLATFORM/ShapeType_publisher
 
 - c++98
 
-       ./src/cpp/objs/$PLATFORM/ShapeType_publisher 
+          ./src/cpp/objs/$PLATFORM/ShapeType_publisher
 
 - lua
 
@@ -105,12 +105,12 @@ as follows.
 
 - c++11
 
-        ./src/c++11/objs/$PLATFORM/ShapeType_subscriber 
-        
+          ./src/c++11/objs/$PLATFORM/ShapeType_subscriber
+
 - c++98
 
-        ./src/cpp/objs/$PLATFORM/ShapeType_subscriber 
-    
+          ./src/cpp/objs/$PLATFORM/ShapeType_subscriber
+
 - lua
 
 	   rtiddsprototyper -cfgName ShapesIfLib::Shapes_Sub -luaFile src/lua/ShapeType_subscriber.lua
