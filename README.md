@@ -47,24 +47,24 @@ Traditional C++ (C++98):
    
   For, example on Mac OSX:
   
-        export PLATFORM=x64Darwin17clang9.0 
+        export CONNEXTDDS_ARCH=x64Darwin17clang9.0 
     
 - Generate makefile (needed for C++)
 
 Modern C++ (C++11):
 
-    rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -platform $PLATFORM -update makefiles -d src/c++11 res/types/ShapeType.idl 
+    rtiddsgen -ppDisable -language C++11 -unboundedSupport -stl -platform $CONNEXTDDS_ARCH -update makefiles -d src/c++11 res/types/ShapeType.idl 
 	   
 Traditional C++ (C++98):
 
-    rtiddsgen -ppDisable -language C++ -unboundedSupport -namespace -useStdString -platform $PLATFORM -update makefiles -d src/cpp res/types/ShapeType.idl 
+    rtiddsgen -ppDisable -language C++ -unboundedSupport -namespace -useStdString -platform $CONNEXTDDS_ARCH -update makefiles -d src/cpp res/types/ShapeType.idl 
 	   
 
 - Create a soft-link to the generated makefile 
   (`makefile -> makefile_ShapeType_<platform>`)
 
         cd src/c++11  # OR    cd src/cpp
-        ln -s makefile_ShapeType_$PLATFORM makefile
+        ln -s makefile_ShapeType_$CONNEXTDDS_ARCH makefile
         cd ../..
 
 
@@ -89,11 +89,11 @@ as follows.
 
 - c++11
 
-	   ./src/c++11/objs/$PLATFORM/ShapeType_publisher
+	   ./src/c++11/objs/$CONNEXTDDS_ARCH/ShapeType_publisher
 
 - c++98
 
-          ./src/cpp/objs/$PLATFORM/ShapeType_publisher
+          ./src/cpp/objs/$CONNEXTDDS_ARCH/ShapeType_publisher
 
 - lua
 
@@ -105,11 +105,11 @@ as follows.
 
 - c++11
 
-          ./src/c++11/objs/$PLATFORM/ShapeType_subscriber
+          ./src/c++11/objs/$CONNEXTDDS_ARCH/ShapeType_subscriber
 
 - c++98
 
-          ./src/cpp/objs/$PLATFORM/ShapeType_subscriber
+          ./src/cpp/objs/$CONNEXTDDS_ARCH/ShapeType_subscriber
 
 - lua
 
