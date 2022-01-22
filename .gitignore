@@ -33,6 +33,7 @@
 
 .DS_Store
 makefile_*
+README_*.txt
 *Type.h*
 *Type.c*
 *Type.xml
